@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import type { UsersQueryType } from '@/types/users';
-
-
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 
 type PropsType = {
   items: Array<UsersQueryType>
@@ -14,10 +21,25 @@ defineProps<{ usersData: PropsType }>()
 
 <template>
   <div v-if="usersData.isLoading" class="spinner"></div>
-  <div v-if="usersData?.items.length">
-    <div v-for="item in usersData.items">
-      User Email: {{ item.email }}
-    </div>
+  <div v-if="usersData?.items.length && !usersData.isLoading" class="w-2/3">
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>
+            Email
+          </TableHead>
+          <TableHead>Number</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow v-for="(item, idx) in usersData.items" :key="idx">
+          <TableCell class="font-medium">
+            {{ item.email }}
+          </TableCell>
+          <TableCell>{{ item.number }}</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
   </div>
   <div v-else-if="usersData.isSearched && !usersData.isLoading">Users not found</div>
   <div v-else-if="!usersData.isSearched && !usersData.isLoading">
