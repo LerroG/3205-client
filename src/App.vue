@@ -3,18 +3,27 @@ import FormSubmit from "@/components/FormSubmit.vue"
 import UsersList from "@/components/UsersList.vue"
 import axios from "axios";
 import type { UsersQueryType } from "./types/users";
-import { ref } from "vue";
+import { reactive } from "vue";
 
-const items = ref()
+
+const usersData = reactive({
+  items: [] as UsersQueryType[],
+  isLoading: false,
+  isSearched: false
+})
 
 const fetchData = async (params: UsersQueryType) => {
   try {
+    usersData.isLoading = true
+    usersData.isSearched = true
     const { data } = await axios.get<UsersQueryType[]>('http://localhost:4200/api/users', {
       params
     })
+    usersData.isLoading = false
 
-    items.value = data
+    usersData.items = data
   } catch (error) {
+    usersData.isLoading = false
     console.log(error)
   }
 }
@@ -26,7 +35,7 @@ const fetchData = async (params: UsersQueryType) => {
       <FormSubmit @submit="fetchData" />
     </div>
     <div class="form-wrapper mt-10">
-      <UsersList :items="items" />
+      <UsersList :usersData="usersData" />
     </div>
   </div>
 </template>
