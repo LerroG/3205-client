@@ -16,7 +16,7 @@ const fetchData = async (params: UsersQueryType) => {
   try {
     usersData.isLoading = true
     usersData.isSearched = true
-    const { data } = await axios.get<UsersQueryType[]>('http://localhost:4200/api/users', {
+    const { data } = await axios.get<UsersQueryType[]>(`${import.meta.env.VITE_BASE_URL}/users`, {
       params
     })
     usersData.isLoading = false
@@ -42,6 +42,6 @@ const fetchData = async (params: UsersQueryType) => {
 
 <style scoped>
 .form-wrapper {
-  @apply flex py-6 justify-center items-center bg-gray-100 rounded-xl w-2/6 shadow-md border;
+  @apply flex py-6 justify-center items-center bg-gray-100 rounded-xl min-h-[100px] w-2/6 shadow-md border;
 }
 </style>

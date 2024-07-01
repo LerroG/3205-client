@@ -21,7 +21,7 @@ defineProps<{ usersData: PropsType }>()
 
 <template>
   <div v-if="usersData.isLoading" class="spinner"></div>
-  <div v-if="usersData?.items.length && !usersData.isLoading" class="w-2/3">
+  <div v-else-if="usersData?.items.length && !usersData.isLoading" class="w-2/3">
     <Table>
       <TableHeader>
         <TableRow>

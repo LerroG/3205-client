@@ -25,7 +25,7 @@ const emit = defineEmits<{
 
 const validationSchema = toTypedSchema(z.object({
   email: z.string().email(),
-  number: z.string().min(8, { message: 'This field must contain at least 6 characters' }).optional().transform(val => val ? Number(val?.replace(/[^+\d]/g, '')) : undefined),
+  number: z.string().optional().transform(val => val ? Number(val?.replace(/[^+\d]/g, '')) : undefined),
 }))
 
 const { handleSubmit } = useForm({
