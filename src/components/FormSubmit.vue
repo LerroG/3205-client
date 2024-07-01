@@ -2,6 +2,7 @@
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm, configure } from 'vee-validate';
 import { z } from 'zod';
+import { IMaskDirective as vImask } from 'vue-imask'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
