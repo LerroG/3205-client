@@ -11,19 +11,27 @@ const usersData = reactive({
   isLoading: false,
   isSearched: false
 })
+let controller: AbortController | null
 
 const fetchData = async (params: UsersQueryType) => {
   try {
+    if (controller) controller.abort()
+    controller = new AbortController()
+    const signal = controller.signal
+
     usersData.isLoading = true
     usersData.isSearched = true
-    const { data } = await axios.get<UsersQueryType[]>(`${import.meta.env.VITE_BASE_URL}/users`, {
-      params
-    })
-    usersData.isLoading = false
+    await axios.get<UsersQueryType[]>(`${import.meta.env.VITE_BASE_URL}/users`, {
+      params,
+      signal
+    }).then((res) => {
+      usersData.isLoading = false
 
-    usersData.items = data
+      usersData.items = res.data
+      controller = null
+    })
+
   } catch (error) {
-    usersData.isLoading = false
     console.log(error)
   }
 }
